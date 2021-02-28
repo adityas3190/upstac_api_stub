@@ -52,19 +52,14 @@ public class ConsultationController {
     @GetMapping("/in-queue")
     @PreAuthorize("hasAnyRole('DOCTOR')")
     public List<TestRequest> getForConsultations()  {
-
         return testRequestQueryService.findBy(RequestStatus.LAB_TEST_COMPLETED);
-
-
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('DOCTOR')")
     public List<TestRequest> getForDoctor()  {
-
         User doctor = userLoggedInService.getLoggedInUser();
         return testRequestQueryService.findByDoctor(doctor);
-
     }
 
 
@@ -73,11 +68,9 @@ public class ConsultationController {
     @PutMapping("/assign/{id}")
     public TestRequest assignForConsultation(@PathVariable Long id) {
         try {
-            // replace this line of code with your implementation
             User doctor = userLoggedInService.getLoggedInUser();
             TestRequest testRequest = testRequestUpdateService.assignForConsultation(id, doctor);
             return testRequest;
-
         }catch (AppException e) {
             throw asBadRequest(e.getMessage());
         }
@@ -89,11 +82,9 @@ public class ConsultationController {
     @PutMapping("/update/{id}")
     public TestRequest updateConsultation(@PathVariable Long id,@RequestBody CreateConsultationRequest testResult) {
         try {
-            // replace this line of code with your implementation
             User doctor = userLoggedInService.getLoggedInUser();
             TestRequest testRequest = testRequestUpdateService.updateConsultation(id, testResult, doctor);
             return testRequest;
-
 
         } catch (ConstraintViolationException e) {
             throw asConstraintViolation(e);
@@ -101,7 +92,5 @@ public class ConsultationController {
             throw asBadRequest(e.getMessage());
         }
     }
-
-
 
 }
